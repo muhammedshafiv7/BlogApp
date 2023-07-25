@@ -104,51 +104,52 @@
             </li>
           </ul>
         </div>
-        <a href="/user/logout" class="btn btn-danger">Logout</a>
+        <a href="/manager/Logout" class="btn btn-danger">Logout</a>
       </div>
     </nav>
   </header>
-
-
-
-
   <main class="container mt-4">
     <div class="row">
+      <% if (typeof res !== 'undefined' && res.length > 0){ %>
+        <% res.forEach((ress) => { %>
+          <!-- Example Post Card -->
+          
+          <div class="col-md-6 mb-4">
+            <div class="card">  
+              <div class="card-body d-flex justify-content-between flex-column">
+                <h3 class="card-title"><%= ress.title %></h3>
+                <span class="card-date">Posted by <%= ress.userName %></span>
+                <span class="card-date">Posted on <%= ress.date %></span>
 
-      <% if (typeof res !=='undefined' && res.length>0){ %>
-        <% res.forEach((ress)=>{%>
-      <!-- Example Post Card -->
-      <div class="col-md-6 mb-4">
-        <div class="card">
-          <div class="card-body d-flex justify-content-between flex-column">
-            <h3 class="card-title"><%= ress.title%></h3>
-            <span class="card-date">Posted by <%= ress.userName%></span>
-            <span class="card-date">Posted on <%= ress.date%></span>
+                <p class="card-text"><%= ress.description %></p>
+                <div>
+                  <% if (ress.approved === 1) { %>
+                    <button class="btn btn-success disabled">Approved</button>
+                  <% } else if (ress.approved === -1) { %>
+                    <button class="btn btn-danger disabled">Declined</button>
+                  <% } else { %>
+                    <button class="btn btn-warning disabled">Pending</button>
+                  <% } %>
+                </div>
 
-            <p class="card-text"><%= ress.description%></p>
-            <div class="d-flex mt-3 mr-4 icons">
-              <a href="" class="ms-2 me-2"><box-icon name='heart'></box-icon></a>
-              <a href="#" class="me-2"><box-icon name='comment'></box-icon></a>
+                
+               
 
+                <div class="ms-auto">
+                  <a href="/user/editPost/<%= ress._id %>" class="btn btn-primary">Edit</a>
+                  <a href="/user/deletePost/<%= ress._id %>" class="btn btn-danger">Delete</a>
+                </div>
+              </div>
             </div>
-
-
-            <div class="ms-auto">
-              <a href="/user/readmoreUser/<%= ress._id%>" class="btn btn-primary">Read More</a>
-            </div>
-
           </div>
-        </div>
-      </div>
-      <% }) %>
-      <% } else {  %>
-        <% } %>
-      
-      <!-- You can add more post cards dynamically through the backend -->
+        <% }) %>
+      <% } else { %>
+        <!-- Show some message if there are no posts -->
+      <% } %>
     </div>
   </main>
 
-  <footer class="footer text-center py-3 ">
+  <footer class="footer text-center py-3 fixed-bottom">
     <!-- Footer content goes here -->
     <p>&copy; 2023 Blog App. All rights reserved.</p>
   </footer>

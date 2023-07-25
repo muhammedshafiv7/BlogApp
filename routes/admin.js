@@ -3,11 +3,36 @@ var router=express.Router()
 const admin = require("../mongoose_schemas/admin_schema")
 var User=require("../mongoose_schemas/userschema")
  var Manager=require("../mongoose_schemas/topicmanager_schema")
+ var Categories=require("../mongoose_schemas/categories_schema")
+
+
+
+
+
 
 
 router.get("/login",function(req,res){
     res.render("login")
 })
+
+
+router.post("/login",function(req,res){
+    var loginInfo=req.body
+    admin.findOne({email:loginInfo.email}).then(function (response){
+        if(!response){
+            res.render('login',{message:'INVALID EMAIL'})
+        }
+        else if(response.password===loginInfo.password){
+            res.redirect("/admin")
+        }
+        else{
+            res.render('login',{message:'INVALID PASSWORD'})
+        }
+    }).catch(function(error){
+        console.log(error)
+    })
+})
+
 
 
 router.get('/edit/:id',(req,res)=>{
@@ -50,25 +75,12 @@ router.get("/",function(req,res){
     
 })
 
-router.post("/login",function(req,res){
-    var loginInfo=req.body
-    admin.findOne({email:loginInfo.email}).then(function (response){
-        if(!response){
-            res.render('login',{message:'INVALID EMAIL'})
-        }
-        else if(response.password===loginInfo.password){
-            res.redirect("/admin")
-        }
-        else{
-            res.render('login',{message:'INVALID PASSWORD'})
-        }
-    }).catch(function(error){
-        console.log(error)
-    })
-})
 
 router.get('/addManager',(req,res)=>{
-    res.render('addManager')
+    Categories.find().then(response=>{
+        res.render('addManager',{cat:response})
+
+    })
 })
  router.post('/addManager',(req,res)=>{
     var Info=req.body
@@ -111,6 +123,62 @@ router.post('/editManager/:id',(req,res)=>{
     
 
 })
+
+router.get('/addCategory',(req,res)=>{
+    res.render('addCategory');
+
+
+})
+
+    router.post('/addCategory',(req,res)=>{
+        var Info=req.body
+        var newCategory=new Categories({
+            topic:Info.topic
+        })
+        console.log(newCategory)
+        newCategory.save().then(response =>{
+            console.log(response)
+            res.redirect('/admin')
+        })
+    })
+
+    router.get('/viewCategory',(req,res)=>{
+        Categories.find().then(response=>{
+            res.render('viewCategories',{topic:response})
+        })
+    })
+
+
+    router.get('/editCategory/:id',(req,res)=>{
+        var id=req.params.id;
+        Categories.findById(id).then(response=>{
+            res.render('editCategories',{cat:response})
+        })
+    })
+
+
+    router.post('/editCategory/:id',(req,res)=>{
+        var id=req.params.id;
+        var update=req.body
+        Categories.findByIdAndUpdate(id,{
+            topic:update.topic,
+        }).then(response=>{
+            res.redirect('/admin/viewCategory')
+        })
+        
+    
+    })
+
+    router.get('/deleteCategory/:id',(req,res)=>{
+        var id= req.params.id
+        Categories.findByIdAndRemove(id).then(response=>{
+            res.redirect('/admin/viewCategory')
+        })
+    })
+
+
+
+
 
 
 

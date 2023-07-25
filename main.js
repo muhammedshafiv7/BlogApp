@@ -6,6 +6,7 @@ var home_Router=require("./routes/home")
 var user_Router=require("./routes/user")
 var User=require("./mongoose_schemas/userschema")
 var admin_Router=require("./routes/admin")
+var manager_Router=require("./routes/manager")
 
 
 
@@ -31,6 +32,7 @@ app.use(express.static("/public/js"))
 app.use('/',home_Router);
 app.use('/user',user_Router);
 app.use('/admin',admin_Router);
+app.use('/manager',manager_Router)
 
 
 

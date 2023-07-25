@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Approval Page</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f9f9f9;
+      margin: 0;
+    }
+
+    .boxed-layout {
+      margin-top: 500px;
+      margin-bottom: 150px;
+
+      width: 200%; /* Make the box fit the entire page width */
+      max-width: 1200px; /* Set a maximum width for the box */
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .card-subtitle {
+      font-size: 14px;
+      color: #888;
+    }
+
+    .card-text {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .btn-approve {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+
+    .btn-decline {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <div class="boxed-layout bg-white">
+    <!-- Section 1: Blog Name, Posted By, Posted On -->
+    <div class="mb-4">
+      <h3 class="card-title mb-1"><%= res.title%></h3>
+      <p class="card-subtitle mb-3">Posted by <%= res.userName%> on <%= res.date%></p>
+    </div>
+    <hr> <!-- Line after Section 1 -->
+
+    <!-- Section 2: Description -->
+    <div class="mb-4">
+      <h5>Description:</h5>
+      <p class="card-text"><%= res.description%></p>
+    </div>
+    <hr> <!-- Line after Section 2 -->
+
+    <!-- Section 3: Content -->
+    <div class="mb-4">
+      <h5>Content:</h5>
+      <p class="card-text"><%= res.content%></p>
+    </div>
+    <hr> <!-- Line after Section 3 -->
+
+    <!-- Approval Buttons -->
+    <div class="d-flex justify-content-between"> <!-- Use justify-content-between class to align buttons to opposite ends -->
+      <form action="" method="post">
+      <button class="btn btn-approve" name="approved" value=1>Approve</button>
+      <button class="btn btn-decline"name="approved" value=-1>Decline</button>
+    </form>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JS and Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

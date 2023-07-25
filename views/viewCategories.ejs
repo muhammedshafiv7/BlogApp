@@ -31,51 +31,20 @@
       display: block;
     }
 
-    .usertable {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
+    /* Reduce the width of the table and center it */
+    .container {
+      max-width: 800px; /* Set the maximum width of the container */
+      margin: 0 auto; /* Center the container horizontally */
     }
 
-    .usertable th,
-    .usertable td {
-      padding: 10px;
-      text-align: center; /* Align all data in the center */
-      border: 1px solid #ccc;
-    }
+    /* ... (rest of the CSS styles) ... */
 
-    .usertable th {
-      background-color: #f2f2f2;
-      font-weight: bold;
-      text-transform: uppercase; /* Convert table headings to uppercase */
-    }
-
-    .usertable th.name-col {
-      width: 15%; /* Set the width for the "Name" column */
-    }
-
-    .usertable tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-
-    .usertable tr:hover {
-      background-color: #ddd;
-    }
-
-    .usertable a {
-      text-decoration: none;
-    }
-
-    .usertable button {
-      padding: 5px 10px;
-      background-color: #1bcc0f;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .usertable button:hover {
-      background-color: #169f0a;
+    /* Reduce the width of the "Edit" and "Delete" columns */
+    .usertable th.edit-col,
+    .usertable td.edit-col,
+    .usertable th.delete-col,
+    .usertable td.delete-col {
+      width: 10%;
     }
   </style>
 </head>
@@ -85,7 +54,7 @@
       <a class="navbar-brand" href="#">Blog App</a>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="">User</a>
+          <a class="nav-link" href="/admin">User</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="topicManagerDropdown" role="button"
@@ -122,38 +91,33 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="loginDropdown">
               <a class="dropdown-item" href="/user/login">User</a>
               <a class="dropdown-item" href="/admin/logout">Logout Admin</a>
-              <a class="dropdown-item" href="/manager/login">Topic Manager</a>
+              <a class="dropdown-item" href="#">Topic Manager</a>
             </div>
           </li>
         </ul>
       </div>
     </nav>
   </header>
+
   <section>
     <div class="container mt-4">
+      <!-- Add header for Categories -->
+      <h2>Category.</h2>
       <div class="table-responsive">
         <table class="table table-bordered usertable">
           <thead class="thead-light">
             <tr>
-              <th class="name-col">Name</th>
-              <th>Email</th>
-              <th>Password</th>
-              <th>Type</th>
-              <th>Signup Time</th>
-              <th>Approved</th>
-              <th>Edit</th>
+              <th>Topic</th>
+              <th class="edit-col">Edit</th>
+              <th class="delete-col">Delete</th>
             </tr>
           </thead>
           <tbody>
-            <% usr.forEach((user) => { %>
+            <% topic.forEach((category) => { %>
               <tr>
-                <td><%= user.name %></td>
-                <td><%= user.email %></td>
-                <td><%= user.password %></td>
-                <td><%= user.type %></td>
-                <td><%= user.date %></td>
-                <td><%= user.approved %></td>
-                <td><a href="/admin/edit/<%= user._id %>"><button class="btn btn-success">Edit</button></a></td>
+                <td><%= category.topic %></td>
+                <td class="edit-col"><a href="/admin/editCategory/<%= category._id %>"><button class="btn btn-success">Edit</button></a></td>
+                <td class="delete-col"><a href="/admin/deleteCategory/<%= category._id %>"><button class="btn btn-danger">Delete</button></a></td>
               </tr>
             <% }) %>
           </tbody>
@@ -161,11 +125,6 @@
       </div>
     </div>
   </section>
-
-
-
-
-
 
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
